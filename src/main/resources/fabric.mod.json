@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "betterloading",
+  "version": "${version}",
+  "name": "BetterLoading Mod",
+  "description": "A mod that speeds up Minecraft resource loading",
+  "authors": [
+    "xDark"
+  ],
+  "contact": {
+    "sources": "https://github.com/xxDark/BetterParsing"
+  },
+  "license": "MIT",
+  "_icon": "assets/betterparsing/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "dev.xdark.betterloading.BetterLoadingMod"
+    ]
+  },
+  "mixins": [
+    "betterloading.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  }
+}
