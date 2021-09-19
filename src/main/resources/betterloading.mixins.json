@@ -5,14 +5,23 @@
   "compatibilityLevel": "JAVA_16",
   "client": [
     "AbstractFileResourcePackMixin",
+    "CataFuseDifferentMixin",
     "DefaultResourcePackMixin",
     "DeserializationContextMixin",
     "DirectoryResourcePackMixin",
+    "FontManagerResourceReloaderMixin",
+    "GameOptionsMixin",
     "NamespaceResourceManagerMixin",
+    "ResourceImplMixin",
+    "ResourceIndexMixin",
     "ResourcePackMixin",
-    "ZipResourcePackMixin",
+    "SplashTextResourceSupplierMixin",
     "SpriteAtlasTextureMixin",
-    "SpriteMixin"
+    "SpriteIdentifierMixin",
+    "SpriteMixin",
+    "VideoWarningManagerMixin",
+    "ZipResourcePackMixin",
+    "MainMixin"
   ],
   "injectors": {
     "defaultRequire": 1

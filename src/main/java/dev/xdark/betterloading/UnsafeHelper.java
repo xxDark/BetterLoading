@@ -12,6 +12,16 @@ final class UnsafeHelper {
 
   private UnsafeHelper() {}
 
+  static <T> T getStaticValue(Field field) {
+    try {
+      LOOKUP.ensureInitialized(field.getDeclaringClass());
+    } catch (IllegalAccessException ex) {
+      throw new IllegalStateException("Could not ensure class initialization", ex);
+    }
+    Unsafe unsafe = UNSAFE;
+    return (T) unsafe.getObject(unsafe.staticFieldBase(field), unsafe.staticFieldOffset(field));
+  }
+
   static void setStaticValue(Field field, Object value) {
     try {
       LOOKUP.ensureInitialized(field.getDeclaringClass());

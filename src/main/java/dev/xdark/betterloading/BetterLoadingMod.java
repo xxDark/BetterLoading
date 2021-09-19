@@ -24,6 +24,7 @@ import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.concurrent.TimeUnit;
 
 public final class BetterLoadingMod implements ModInitializer {
 
