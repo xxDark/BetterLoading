@@ -1,0 +1,11 @@
+accessWidener v1 named
+
+accessible class net/minecraft/client/texture/ResourceTexture$TextureData
+extendable class net/minecraft/client/texture/NativeImage
+accessible field net/minecraft/client/texture/ResourceTexture LOGGER Lorg/apache/logging/log4j/Logger;
+accessible field net/minecraft/client/texture/NativeImage$Format channelCount I
+accessible method net/minecraft/client/texture/NativeImage$Format getFormat (I)Lnet/minecraft/client/texture/NativeImage$Format;
+extendable method net/minecraft/client/texture/NativeImage <init> (Lnet/minecraft/client/texture/NativeImage$Format;IIZJ)V
+accessible method net/minecraft/client/texture/Sprite <init> (Lnet/minecraft/client/texture/SpriteAtlasTexture;Lnet/minecraft/client/texture/Sprite$Info;IIIIILnet/minecraft/client/texture/NativeImage;)V
+accessible method net/minecraft/client/particle/ParticleTextureData <init> (Ljava/util/List;)V
+

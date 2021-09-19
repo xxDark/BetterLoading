@@ -1,6 +1,5 @@
 package dev.xdark.betterloading.json;
 
-import com.google.common.collect.Lists;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;

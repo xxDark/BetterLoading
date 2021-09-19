@@ -1,7 +1,7 @@
 package dev.xdark.betterloading.mixin;
 
 import dev.xdark.betterloading.IOUtil;
-import dev.xdark.betterloading.internal.IFileResourcePackMixin;
+import dev.xdark.betterloading.internal.FileResourcePackExt;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -14,11 +14,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 
 @Mixin(AbstractFileResourcePack.class)
-public abstract class AbstractFileResourcePackMixin implements IFileResourcePackMixin {
+public abstract class AbstractFileResourcePackMixin implements FileResourcePackExt {
 
   @Shadow
   protected abstract boolean containsFile(String name);

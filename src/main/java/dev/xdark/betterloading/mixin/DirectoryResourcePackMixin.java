@@ -1,6 +1,6 @@
 package dev.xdark.betterloading.mixin;
 
-import dev.xdark.betterloading.internal.IFileResourcePackMixin;
+import dev.xdark.betterloading.internal.FileResourcePackExt;
 import net.minecraft.resource.DirectoryResourcePack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Mixin(DirectoryResourcePack.class)
-public abstract class DirectoryResourcePackMixin implements IFileResourcePackMixin {
+public abstract class DirectoryResourcePackMixin implements FileResourcePackExt {
 
   @Shadow
   @Nullable

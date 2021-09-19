@@ -36,6 +36,10 @@ java {
 	withSourcesJar()
 }
 
+loom {
+	accessWidenerPath.set(file('src/main/resources/betterloading.accesswidener'))
+}
+
 jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
