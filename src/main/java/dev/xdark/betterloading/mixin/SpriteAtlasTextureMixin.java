@@ -25,7 +25,7 @@ public abstract class SpriteAtlasTextureMixin {
    * @reason remove call to {@link String#format(String, Object...)}
    */
   @Overwrite
-  private Identifier getTexturePath(Identifier id) {
+  public Identifier getTexturePath(Identifier id) {
     return new Identifier(id.getNamespace(), "textures/" + id.getPath() + ".png");
   }
 
@@ -34,7 +34,7 @@ public abstract class SpriteAtlasTextureMixin {
    * @reason use image cache if possible
    */
   @Overwrite
-  private @Nullable Sprite loadSprite(
+  public @Nullable Sprite loadSprite(
       ResourceManager container,
       Sprite.Info info,
       int atlasWidth,
