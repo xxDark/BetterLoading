@@ -50,7 +50,7 @@ public abstract class AbstractFileResourcePackMixin implements FileResourcePackE
   @Redirect(
       method =
           "parseMetadata(Lnet/minecraft/resource/metadata/ResourceMetadataReader;Ljava/io/InputStream;)Ljava/lang/Object;",
-      at = @At(value = "NEW", target = "Ljava/io/BufferedReader;<init>(Ljava/io/Reader;)V"))
+      at = @At(value = "NEW", target = "(Ljava/io/Reader;)Ljava/io/BufferedReader;"))
   private static BufferedReader bufferReader(Reader reader) {
     return IOUtil.toBufferedReader(reader);
   }

@@ -30,7 +30,7 @@ public abstract class ReloadableResourceManagerImplMixin implements ResourceFact
           @At(
               value = "NEW",
               target =
-                  "Lnet/minecraft/resource/NamespaceResourceManager;<init>(Lnet/minecraft/resource/ResourceType;Ljava/lang/String;)V"))
+                  "(Lnet/minecraft/resource/ResourceType;Ljava/lang/String;)Lnet/minecraft/resource/NamespaceResourceManager;"))
   private NamespaceResourceManager onResourceManagerCreate(ResourceType type, String namespace) {
     return new EnhancedNamespaceResourceManager(type, namespace);
   }

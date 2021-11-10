@@ -14,7 +14,7 @@ public abstract class SplashTextResourceSupplierMixin {
 
   @Redirect(
       method = "prepare",
-      at = @At(value = "NEW", target = "Ljava/io/BufferedReader;<init>(Ljava/io/Reader;)V"))
+      at = @At(value = "NEW", target = "<init>(Ljava/io/Reader;)Ljava/io/BufferedReader;"))
   private static BufferedReader bufferReader(Reader reader) {
     return IOUtil.toBufferedReader(reader);
   }
