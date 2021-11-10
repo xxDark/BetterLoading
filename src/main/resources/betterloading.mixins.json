@@ -8,7 +8,6 @@
     "DefaultResourcePackMixin",
     "DeserializationContextMixin",
     "DirectoryResourcePackMixin",
-    "FontManagerResourceReloaderMixin",
     "GameOptionsMixin",
     "JsonUnbakedModelMixin",
     "MainMixin",
