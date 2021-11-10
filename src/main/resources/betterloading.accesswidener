@@ -8,4 +8,7 @@ accessible method net/minecraft/client/texture/NativeImage$Format getFormat (I)L
 extendable method net/minecraft/client/texture/NativeImage <init> (Lnet/minecraft/client/texture/NativeImage$Format;IIZJ)V
 accessible method net/minecraft/client/texture/Sprite <init> (Lnet/minecraft/client/texture/SpriteAtlasTexture;Lnet/minecraft/client/texture/Sprite$Info;IIIIILnet/minecraft/client/texture/NativeImage;)V
 accessible method net/minecraft/client/particle/ParticleTextureData <init> (Ljava/util/List;)V
+accessible field net/minecraft/resource/NamespaceResourceManager type Lnet/minecraft/resource/ResourceType;
+accessible method net/minecraft/resource/NamespaceResourceManager validate (Lnet/minecraft/util/Identifier;)V
+accessible method net/minecraft/resource/NamespaceResourceManager getMetadataPath (Lnet/minecraft/util/Identifier;)Lnet/minecraft/util/Identifier;
 

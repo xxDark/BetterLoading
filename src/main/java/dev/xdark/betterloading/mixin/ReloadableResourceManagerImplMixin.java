@@ -2,14 +2,18 @@ package dev.xdark.betterloading.mixin;
 
 import dev.xdark.betterloading.cache.NativeImageHolder;
 import dev.xdark.betterloading.internal.ResourceFactoryExt;
+import dev.xdark.betterloading.resource.EnhancedNamespaceResourceManager;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.resource.NamespaceResourceManager;
 import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +23,17 @@ import java.util.Map;
 public abstract class ReloadableResourceManagerImplMixin implements ResourceFactoryExt {
 
   @Shadow @Final private Map<String, NamespaceResourceManager> namespaceManagers;
+
+  @Redirect(
+      method = "addPack",
+      at =
+          @At(
+              value = "NEW",
+              target =
+                  "Lnet/minecraft/resource/NamespaceResourceManager;<init>(Lnet/minecraft/resource/ResourceType;Ljava/lang/String;)V"))
+  private NamespaceResourceManager onResourceManagerCreate(ResourceType type, String namespace) {
+    return new EnhancedNamespaceResourceManager(type, namespace);
+  }
 
   @Override
   public JsonUnbakedModel tryGetJsonUnbakedModel(Identifier id) throws IOException {
