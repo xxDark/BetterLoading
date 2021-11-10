@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class ResourceCache {
 
+  // private static final Cleaner CLEANER = Cleaner.create();
   private static final int WORKER_THREADS =
       MathHelper.clamp(Runtime.getRuntime().availableProcessors() - 1, 1, 7) + 1;
   private static final NativeImageHolder MISSING_IMAGE = new NativeImageHolder(null);
@@ -31,6 +32,10 @@ public final class ResourceCache {
               notification -> {
                 NativeImageHolder holder = notification.getValue();
                 if (holder != MISSING_IMAGE) {
+                  /*
+                  CachedNativeImage image = (CachedNativeImage) holder.getImage();
+                  CLEANER.register(image, image::doClose);
+                   */
                   ((CachedNativeImage) holder.getImage()).doClose();
                 }
               })
@@ -62,8 +67,7 @@ public final class ResourceCache {
         jsonUnbakedModelCache,
         new ResourceKey(type, identifier),
         (rp, key) -> {
-          InputStream in =
-              ((ResourcePackExt) rp).tryOpen(key.resourceType(), key.getIdentifier());
+          InputStream in = ((ResourcePackExt) rp).tryOpen(key.resourceType(), key.getIdentifier());
           if (in == null) {
             return null;
           }

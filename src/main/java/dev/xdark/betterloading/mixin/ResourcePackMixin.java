@@ -36,9 +36,9 @@ public interface ResourcePackMixin extends ResourcePackExt {
   }
 
   @Override
-  default NativeImageHolder tryLoadImage(ResourceType type, Identifier identifier)
+  default NativeImageHolder tryLoadImage(ResourceType type, Identifier id)
       throws IOException {
-    try (InputStream in = tryOpen(type, identifier)) {
+    try (InputStream in = tryOpen(type, id)) {
       if (in == null) {
         return null;
       }
@@ -47,18 +47,18 @@ public interface ResourcePackMixin extends ResourcePackExt {
   }
 
   @Override
-  default NativeImageHolder loadImage(ResourceType type, Identifier identifier) throws IOException {
-    NativeImageHolder image = tryLoadImage(type, identifier);
+  default NativeImageHolder loadImage(ResourceType type, Identifier id) throws IOException {
+    NativeImageHolder image = tryLoadImage(type, id);
     if (image == null) {
-      throw new FileNotFoundException(identifier.toString());
+      throw new FileNotFoundException(id.toString());
     }
     return image;
   }
 
   @Override
-  default JsonUnbakedModel tryLoadUnbakedModel(ResourceType type, Identifier identifier)
+  default JsonUnbakedModel tryLoadUnbakedModel(ResourceType type, Identifier id)
       throws IOException {
-    try (InputStream in = tryOpen(type, identifier)) {
+    try (InputStream in = tryOpen(type, id)) {
       if (in == null) {
         return null;
       }
@@ -68,11 +68,11 @@ public interface ResourcePackMixin extends ResourcePackExt {
   }
 
   @Override
-  default JsonUnbakedModel loadUnbakedModel(ResourceType type, Identifier identifier)
+  default JsonUnbakedModel loadUnbakedModel(ResourceType type, Identifier id)
       throws IOException {
-    JsonUnbakedModel model = tryLoadUnbakedModel(type, identifier);
+    JsonUnbakedModel model = tryLoadUnbakedModel(type, id);
     if (model == null) {
-      throw new FileNotFoundException(identifier.toString());
+      throw new FileNotFoundException(id.toString());
     }
     return model;
   }

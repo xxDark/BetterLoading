@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_16",
   "client": [
     "AbstractFileResourcePackMixin",
+    "BlockModelsMixin",
+    "BlockStateMixin",
     "DefaultResourcePackMixin",
     "DeserializationContextMixin",
     "DirectoryResourcePackMixin",
@@ -32,7 +34,9 @@
     "UnicodeTextureFontMixin",
     "VideoWarningManagerMixin",
     "WeightedUnbakedModelMixin",
-    "ZipResourcePackMixin"
+    "ZipResourcePackMixin",
+    "DefaultClientResourcePackMixin",
+    "UtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1

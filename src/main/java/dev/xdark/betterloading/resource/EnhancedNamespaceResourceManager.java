@@ -1,6 +1,7 @@
 package dev.xdark.betterloading.resource;
 
 import dev.xdark.betterloading.cache.CachedResourceImpl;
+import dev.xdark.betterloading.internal.FabricInjector;
 import dev.xdark.betterloading.internal.ResourcePackExt;
 import net.fabricmc.fabric.impl.resource.loader.GroupResourcePack;
 import net.fabricmc.fabric.mixin.resource.loader.NamespaceResourceManagerAccessor;
@@ -20,8 +21,7 @@ import java.util.List;
 
 public final class EnhancedNamespaceResourceManager extends NamespaceResourceManager {
 
-  private static final boolean RESOURCE_LOADER_PRESENT =
-      FabricLoader.getInstance().isModLoaded("fabric-resource-loader-v0");
+  private static final boolean RESOURCE_LOADER_PRESENT = FabricInjector.RESOURCE_LOADER_PRESENT;
 
   public EnhancedNamespaceResourceManager(ResourceType type, String namespace) {
     super(type, namespace);
@@ -58,9 +58,8 @@ public final class EnhancedNamespaceResourceManager extends NamespaceResourceMan
     ResourceType type = this.type;
     for (int i = 0, j = packList.size(); i < j; i++) {
       ResourcePack resourcePack = packList.get(i);
-      if (RESOURCE_LOADER_PRESENT && resourcePack instanceof GroupResourcePack) {
-        ((GroupResourcePack) resourcePack)
-            .appendResources((NamespaceResourceManagerAccessor) (Object) this, id, resources);
+      if (RESOURCE_LOADER_PRESENT && resourcePack instanceof GroupResourcePack grp) {
+        grp.appendResources((NamespaceResourceManagerAccessor) (Object) this, id, resources);
         continue;
       }
       ResourcePackExt helper = (ResourcePackExt) resourcePack;

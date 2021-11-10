@@ -1,7 +1,11 @@
 package dev.xdark.betterloading.json;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -58,11 +62,13 @@ public final class MultipartModelComponentDeserializer
     if (in.peek() == JsonToken.END_OBJECT) {
       throw new JsonParseException("No elements found in selector");
     }
-    MultipartModelSelector result;
+
     String name = in.nextName();
-    if (in.peek() == JsonToken.BEGIN_ARRAY) {
-      List<MultipartModelSelector> selectors = new ArrayList<>();
+    JsonToken token = in.peek();
+    MultipartModelSelector result;
+    if (token == JsonToken.BEGIN_ARRAY) {
       in.beginArray();
+      List<MultipartModelSelector> selectors = new ArrayList<>();
       while (in.hasNext()) {
         selectors.add(readSelector(in));
       }
@@ -74,21 +80,78 @@ public final class MultipartModelComponentDeserializer
       } else {
         throw new JsonParseException("Unexpected token: " + name);
       }
-    } else if (in.peek() != JsonToken.STRING) {
-      throw new JsonParseException("Expected selector value");
     } else {
-      result = new SimpleMultipartModelSelector(name, in.nextString());
-      if (in.hasNext()) {
-        List<MultipartModelSelector> selectors = new ArrayList<>();
-        selectors.add(result);
-        selectors.add(new SimpleMultipartModelSelector(in.nextName(), in.nextString()));
+      List<MultipartModelSelector> selectors = new ArrayList<>();
+      MultipartModelSelector selector = new SimpleMultipartModelSelector(name, parse(in).getAsString());
+      selectors.add(selector);
+      if (in.peek() == JsonToken.NAME) {
         while (in.hasNext()) {
-          selectors.add(new SimpleMultipartModelSelector(in.nextName(), in.nextString()));
+          selectors.add(new SimpleMultipartModelSelector(in.nextName(), parse(in).getAsString()));
         }
+      }
+      if (selectors.size() == 1) {
+        result = selector;
+      } else {
         result = new AndMultipartModelSelector(selectors);
       }
     }
     in.endObject();
     return result;
+
+    /*
+    parse:
+    {
+      MultipartModelSelector result;
+      String name = in.nextName();
+      JsonToken token = in.peek();
+      if (token == JsonToken.BEGIN_ARRAY) {
+        List<MultipartModelSelector> selectors = new ArrayList<>();
+        in.beginArray();
+        while (in.hasNext()) {
+          selectors.add(readSelector(in));
+        }
+        in.endArray();
+        if ("OR".equals(name)) {
+          result = new OrMultipartModelSelector(selectors);
+        } else if ("AND".equals(name)) {
+          result = new AndMultipartModelSelector(selectors);
+        } else {
+          throw new JsonParseException("Unexpected token: " + name);
+        }
+      } else if (token == JsonToken.STRING) {
+        result = new SimpleMultipartModelSelector(name, in.nextString());
+        if (in.hasNext()) {
+          List<MultipartModelSelector> selectors = new ArrayList<>();
+          selectors.add(result);
+          selectors.add(new SimpleMultipartModelSelector(in.nextName(), in.nextString()));
+          while (in.hasNext()) {
+            selectors.add(new SimpleMultipartModelSelector(in.nextName(), in.nextString()));
+          }
+          result = new AndMultipartModelSelector(selectors);
+        }
+      } else if (token == JsonToken.BEGIN_OBJECT) {
+        String name = in.nextName();
+        System.out.println(name);
+        if (!"when".equals(name))
+          break parse;
+        result = new SimpleMultipartModelSelector(name, PARSER.parse(in).toString());
+      } else break parse;
+      in.endObject();
+      return result;
+    }
+    throw new IllegalStateException("Unexpected selector");
+     */
+  }
+
+  private static JsonElement parse(JsonReader json) throws JsonIOException, JsonSyntaxException {
+    boolean lenient = json.isLenient();
+    json.setLenient(true);
+    try {
+      return Streams.parse(json);
+    } catch (StackOverflowError e) {
+      throw new JsonParseException("Failed parsing JSON source: " + json + " to Json", e);
+    } finally {
+      json.setLenient(lenient);
+    }
   }
 }

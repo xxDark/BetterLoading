@@ -11,6 +11,7 @@ import dev.xdark.betterloading.json.ModelTransformationDeserializer;
 import dev.xdark.betterloading.json.SoundEntryDeserializer;
 import dev.xdark.betterloading.json.TransformationDeserializer;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.render.model.json.ModelElement;
 import net.minecraft.client.render.model.json.ModelElementFace;
@@ -27,10 +28,13 @@ import java.lang.reflect.Modifier;
 
 public final class BetterLoadingMod implements ModInitializer {
 
+  public static final boolean RESOURCE_LOADER_PRESENT =
+      FabricLoader.getInstance().isModLoaded("fabric-resource-loader-v0");
+
   @Override
   public void onInitialize() {
     System.out.println("BetterLoading will now replace Gson instances...");
-    UnsafeHelper.setStaticValue(
+    RuntimeHelper.setStaticValue(
         searchForGsonField(JsonUnbakedModel.class),
         new GsonBuilder()
             .registerTypeAdapter(JsonUnbakedModel.class, JsonUnbakedModelDeserializer.INSTANCE)
@@ -43,7 +47,7 @@ public final class BetterLoadingMod implements ModInitializer {
                 ModelTransformation.class, ModelTransformationDeserializer.INSTANCE)
             .registerTypeAdapter(ModelOverride.class, ModelOverrideDeserializer.INSTANCE)
             .create());
-    UnsafeHelper.setStaticValue(
+    RuntimeHelper.setStaticValue(
         searchForGsonField(SoundManager.class),
         new GsonBuilder()
             .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())

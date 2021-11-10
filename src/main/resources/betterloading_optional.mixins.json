@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "dev.xdark.betterloading.mixin.optional",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "GroupResourcePackMixin",
+    "ModNioResourcePackMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -2,6 +2,7 @@ package dev.xdark.betterloading.mixin;
 
 import dev.xdark.betterloading.IOUtil;
 import dev.xdark.betterloading.internal.FileResourcePackExt;
+import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;

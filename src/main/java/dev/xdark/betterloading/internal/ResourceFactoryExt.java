@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public interface ResourceFactoryExt {
 
-	JsonUnbakedModel tryGetJsonUnbakedModel(Identifier id) throws IOException;
+  JsonUnbakedModel tryGetJsonUnbakedModel(Identifier id) throws IOException;
 
-	JsonUnbakedModel getJsonUnbakedModel(Identifier id) throws IOException;
+  JsonUnbakedModel getJsonUnbakedModel(Identifier id) throws IOException;
 
-	NativeImageHolder tryGetNativeImage(Identifier id) throws IOException;
+  NativeImageHolder tryGetNativeImage(Identifier id) throws IOException;
 
-	NativeImageHolder getNativeImage(Identifier id) throws IOException;
+  NativeImageHolder getNativeImage(Identifier id) throws IOException;
 }

@@ -21,10 +21,10 @@ import java.util.List;
 public abstract class NamespaceResourceManagerMixin implements ResourceFactoryExt {
 
   @Shadow
-  protected abstract void validate(Identifier id) throws IOException;
+  public abstract void validate(Identifier id) throws IOException;
 
   @Shadow @Final protected List<ResourcePack> packList;
-  @Shadow @Final private ResourceType type;
+  @Shadow @Final public ResourceType type;
 
   @Override
   public JsonUnbakedModel tryGetJsonUnbakedModel(Identifier id) throws IOException {
@@ -62,7 +62,7 @@ public abstract class NamespaceResourceManagerMixin implements ResourceFactoryEx
         return image;
       }
     }
-   return null;
+    return null;
   }
 
   @Override

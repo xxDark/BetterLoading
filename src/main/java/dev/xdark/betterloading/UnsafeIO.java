@@ -22,7 +22,7 @@ final class UnsafeIO {
   static {
     try {
       Field field = MethodHandles.Lookup.class.getDeclaredField("IMPL_LOOKUP");
-      MethodHandles.Lookup lookup = UnsafeHelper.getStaticValue(field);
+      MethodHandles.Lookup lookup = RuntimeHelper.getStaticValue(field);
       MH_BR_SET_BUF = lookup.findSetter(BufferedReader.class, "cb", char[].class);
     } catch (NoSuchFieldException | IllegalAccessException ex) {
       throw new ExceptionInInitializerError(ex);
