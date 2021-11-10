@@ -42,8 +42,7 @@ public final class EnhancedNamespaceResourceManager extends NamespaceResourceMan
       }
       InputStream in;
       if ((in = helper.tryOpen(type, id)) != null) {
-        return new CachedResourceImpl(
-            resourcePack, type, resourcePack.getName(), id, in, metadataStream);
+        return new CachedResourceImpl(resourcePack, type, id, in, metadataStream);
       }
     }
     IOUtils.closeQuietly(metadataStream);
@@ -68,8 +67,7 @@ public final class EnhancedNamespaceResourceManager extends NamespaceResourceMan
       InputStream in;
       if ((in = helper.tryOpen(type, id)) != null) {
         InputStream metaStream = helper.tryOpen(type, metadataPath);
-        resources.add(
-            new CachedResourceImpl(resourcePack, type, resourcePack.getName(), id, in, metaStream));
+        resources.add(new CachedResourceImpl(resourcePack, type, id, in, metaStream));
       }
     }
     if (resources.isEmpty()) {

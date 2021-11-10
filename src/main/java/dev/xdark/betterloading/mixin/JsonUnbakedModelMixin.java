@@ -22,12 +22,12 @@ public abstract class JsonUnbakedModelMixin implements UnbakedModelExt {
 
   @Override
   public void putModels(ModelLoader modelLoader) {
-    List<ModelOverride> overrides = this.overrides;
-    ((ModelLoaderExt) modelLoader)
-        .putModels(Collections2.transform(overrides, ModelOverride::getModelId));
     Identifier parentId = this.parentId;
     if (parentId != null) {
-      ((ModelLoaderExt)modelLoader).putModel(parentId);
+      List<ModelOverride> overrides = this.overrides;
+      ((ModelLoaderExt) modelLoader)
+          .putModels(Collections2.transform(overrides, ModelOverride::getModelId));
+      ((ModelLoaderExt) modelLoader).putModel(parentId);
     }
   }
 }

@@ -20,11 +20,10 @@ public final class CachedResourceImpl extends ResourceImpl implements ResourceEx
   public CachedResourceImpl(
       ResourcePack resourcePack,
       ResourceType resourceType,
-      String packName,
       Identifier id,
       InputStream inputStream,
       @Nullable InputStream metaInputStream) {
-    super(packName, id, inputStream, metaInputStream);
+    super(resourcePack.getName(), id, inputStream, metaInputStream);
     this.resourcePack = resourcePack;
     this.resourceType = resourceType;
   }

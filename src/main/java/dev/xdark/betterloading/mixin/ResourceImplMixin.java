@@ -14,7 +14,7 @@ public abstract class ResourceImplMixin {
 
   @Redirect(
       method = "getMetadata",
-      at = @At(value = "NEW", target = "(Ljava/io/Reader;)Ljava/io/BufferedReader;"))
+      at = @At(value = "NEW", target = "Ljava/io/BufferedReader;<init>(Ljava/io/Reader;)V"))
   private static BufferedReader bufferReader(Reader reader) {
     return IOUtil.toBufferedReader(reader);
   }
