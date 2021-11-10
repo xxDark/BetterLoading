@@ -61,10 +61,11 @@ public abstract class ModNioResourcePackMixin implements FileResourcePackExt {
     cache = new ResourceCache((ResourcePack) (Object) this);
     if (FabricInjector.isZipPath(path)) {
       try {
-        fileSystemOverride = FabricInjector.openZipFile(path.getFileSystem());
-        String zipPathPrefix = path.toAbsolutePath().normalize().toString();
-        if (zipPathPrefix.charAt(0) == '/') zipPathPrefix = zipPathPrefix.substring(1);
-        this.zipPathPrefix = zipPathPrefix + '/';
+        if ((fileSystemOverride = FabricInjector.openZipFile(path.getFileSystem())) != null) {
+          String zipPathPrefix = path.toAbsolutePath().normalize().toString();
+          if (zipPathPrefix.charAt(0) == '/') zipPathPrefix = zipPathPrefix.substring(1);
+          this.zipPathPrefix = zipPathPrefix + '/';
+        }
       } catch (IOException ex) {
         System.err.println("Unable to open ZIP archive: ");
         ex.printStackTrace();

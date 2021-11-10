@@ -14,8 +14,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -88,19 +86,5 @@ public abstract class ModelLoaderMixin implements ModelLoaderExt {
   private void putModel(Identifier id, UnbakedModel unbakedModel) {
     this.unbakedModels.put(id, unbakedModel);
     ((UnbakedModelExt) unbakedModel).putModels((ModelLoader) (Object) this);
-  }
-
-  @Redirect(
-      method = "*",
-      at =
-          @At(
-              value = "INVOKE",
-              target = "Ljava/lang/Exception;getMessage()Ljava/lang/String;",
-              ordinal = 0))
-  private String onFormat(Exception ex) {
-    ex.printStackTrace(System.err);
-    System.err.flush();
-    Runtime.getRuntime().halt(1);
-    return ex.getMessage();
   }
 }
