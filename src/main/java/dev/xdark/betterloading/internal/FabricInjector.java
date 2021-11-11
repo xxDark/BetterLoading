@@ -31,7 +31,7 @@ public final class FabricInjector {
   public static Field getDefaultDelegatingPackField() {
     if (!RESOURCE_LOADER_PRESENT) return null;
     for (Field field : DefaultResourcePack.class.getDeclaredFields()) {
-      if (field.getType() == ResourcePack.class) {
+      if (field.getType() == ResourcePack.class && "fabric_mcJarPack".equals(field.getName())) {
         return field;
       }
     }
@@ -118,6 +118,9 @@ public final class FabricInjector {
       ZIP_PATH_RESOLVE =
           RuntimeHelper.findVirtual(
               ZIP_PATH, "getResolvedPath", MethodType.methodType(byte[].class));
+      if (RESOURCE_LOADER_PRESENT) {
+        System.out.println("detected Fabric's resource loader");
+      }
     } catch (ClassNotFoundException ex) {
       throw new ExceptionInInitializerError(ex);
     }

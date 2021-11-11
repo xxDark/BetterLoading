@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 @Mixin(DefaultResourcePack.class)
 public abstract class DefaultResourcePackMixin
@@ -39,7 +40,15 @@ public abstract class DefaultResourcePackMixin
   @Inject(method = "<init>", at = @At("RETURN"))
   private void init(PackResourceMetadata metadata, String[] namespaces, CallbackInfo ci) {
     Field field = FabricInjector.getDefaultDelegatingPackField();
-    this.delegate = field == null ? null : RuntimeHelper.getObjectValue(this, field);
+    ResourcePack delegate = null;
+    if (field != null) {
+      delegate =
+          Objects.requireNonNull(
+              RuntimeHelper.getObjectValue(this, field),
+              "Delegate resource pack must be non-null!");
+    }
+    this.delegate = delegate;
+
     cache = new ResourceCache((ResourcePack) (Object) this);
   }
 

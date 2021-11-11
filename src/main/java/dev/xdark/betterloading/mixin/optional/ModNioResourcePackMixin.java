@@ -27,8 +27,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -40,11 +38,6 @@ public abstract class ModNioResourcePackMixin implements FileResourcePackExt {
 
   @Shadow @Final private ModMetadata modInfo;
   @Shadow @Final private ResourceType type;
-
-  @Shadow
-  public abstract Collection<Identifier> findResources(
-      ResourceType type, String type2, String namespace, int prefix, Predicate<String> maxDepth);
-
   private ResourceCache cache;
 
   private String zipPathPrefix;
