@@ -2,7 +2,7 @@ package dev.xdark.betterloading.mixin.optional;
 
 import dev.xdark.betterloading.cache.NativeImageHolder;
 import dev.xdark.betterloading.cache.ResourceCache;
-import dev.xdark.betterloading.internal.FabricInjector;
+import dev.xdark.betterloading.internal.GameHelper;
 import dev.xdark.betterloading.internal.FileResourcePackExt;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
@@ -52,9 +52,9 @@ public abstract class ModNioResourcePackMixin implements FileResourcePackExt {
       ResourcePackActivationType activationType,
       CallbackInfo ci) {
     cache = new ResourceCache((ResourcePack) (Object) this);
-    if (FabricInjector.isZipPath(path)) {
+    if (GameHelper.isZipPath(path)) {
       try {
-        if ((fileSystemOverride = FabricInjector.openZipFile(path.getFileSystem())) != null) {
+        if ((fileSystemOverride = GameHelper.openZipFile(path.getFileSystem())) != null) {
           String zipPathPrefix = path.toAbsolutePath().normalize().toString();
           if (zipPathPrefix.charAt(0) == '/') zipPathPrefix = zipPathPrefix.substring(1);
           this.zipPathPrefix = zipPathPrefix + '/';
@@ -75,7 +75,7 @@ public abstract class ModNioResourcePackMixin implements FileResourcePackExt {
     Path path = getPath(name);
 
     // RSPEC-3725
-    if (path != null && /* Files.isRegularFile(path)*/ FabricInjector.isFile(path)) {
+    if (path != null && /* Files.isRegularFile(path)*/ GameHelper.isFile(path)) {
       return Files.newInputStream(path);
     }
 
@@ -92,7 +92,7 @@ public abstract class ModNioResourcePackMixin implements FileResourcePackExt {
   private boolean existsCheck(Path path, LinkOption[] x) {
     // assert x.length == 0;
     // RSPEC-3725
-    return FabricInjector.exists(path);
+    return GameHelper.exists(path);
   }
 
   @Redirect(
@@ -105,7 +105,7 @@ public abstract class ModNioResourcePackMixin implements FileResourcePackExt {
   private boolean isDirectoryCheck(Path path, LinkOption[] x) {
     // assert x.length == 0;
     // RSPEC-3725
-    return FabricInjector.isDirectory(path);
+    return GameHelper.isDirectory(path);
   }
 
   /**

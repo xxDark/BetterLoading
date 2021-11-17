@@ -5,7 +5,7 @@ import dev.xdark.betterloading.cache.NativeImageHolder;
 import dev.xdark.betterloading.cache.ResourceCache;
 import dev.xdark.betterloading.internal.DefaultResourcePackExt;
 import dev.xdark.betterloading.internal.ResourceFactoryExt;
-import dev.xdark.betterloading.internal.FabricInjector;
+import dev.xdark.betterloading.internal.GameHelper;
 import dev.xdark.betterloading.internal.ResourcePackExt;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.resource.DefaultResourcePack;
@@ -39,7 +39,7 @@ public abstract class DefaultResourcePackMixin
 
   @Inject(method = "<init>", at = @At("RETURN"))
   private void init(PackResourceMetadata metadata, String[] namespaces, CallbackInfo ci) {
-    Field field = FabricInjector.getDefaultDelegatingPackField();
+    Field field = GameHelper.getDefaultDelegatingPackField();
     ResourcePack delegate = null;
     if (field != null) {
       delegate =

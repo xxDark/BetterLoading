@@ -11,7 +11,7 @@ away unnecessary I/O introduced by Mojang's codebase.
 Requirements:
 =============
 
-- Fabric Loader v0.11.6
+- Fabric Loader v0.12.5
 
 ---
 

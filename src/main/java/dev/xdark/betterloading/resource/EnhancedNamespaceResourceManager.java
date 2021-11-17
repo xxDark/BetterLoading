@@ -1,7 +1,7 @@
 package dev.xdark.betterloading.resource;
 
 import dev.xdark.betterloading.cache.CachedResourceImpl;
-import dev.xdark.betterloading.internal.FabricInjector;
+import dev.xdark.betterloading.internal.GameHelper;
 import dev.xdark.betterloading.internal.ResourcePackExt;
 import net.fabricmc.fabric.impl.resource.loader.GroupResourcePack;
 import net.fabricmc.fabric.mixin.resource.loader.NamespaceResourceManagerAccessor;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public final class EnhancedNamespaceResourceManager extends NamespaceResourceManager {
 
-  private static final boolean RESOURCE_LOADER_PRESENT = FabricInjector.RESOURCE_LOADER_PRESENT;
+  private static final boolean RESOURCE_LOADER_PRESENT = GameHelper.RESOURCE_LOADER_PRESENT;
 
   public EnhancedNamespaceResourceManager(ResourceType type, String namespace) {
     super(type, namespace);

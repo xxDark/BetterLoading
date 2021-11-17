@@ -1,10 +1,12 @@
 package dev.xdark.betterloading.mixin;
 
+import dev.xdark.betterloading.internal.GameHelper;
 import io.netty.util.concurrent.FastThreadLocalThread;
 import net.minecraft.client.main.Main;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Main.class)
@@ -21,4 +23,26 @@ public abstract class MainMixin {
       ci.cancel();
     }
   }
+
+  @Inject(
+      method = "main",
+      at =
+          @At(
+              value = "INVOKE",
+              target = "Lnet/minecraft/SharedConstants;createGameVersion()V",
+              shift = At.Shift.AFTER))
+  private static void bootstrap(String[] args, CallbackInfo ci) {
+    GameHelper.bootstrap();
+  }
+
+  @Redirect(
+      method = "main",
+      at = @At(value = "INVOKE", target = "Lnet/minecraft/Bootstrap;initialize()V"))
+  private static void onBootstrap() {}
+
+  // Do nothing, checked in GameHelper
+  @Redirect(
+      method = "main",
+      at = @At(value = "INVOKE", target = "Lnet/minecraft/Bootstrap;logMissing()V"))
+  private static void logMissing() {}
 }

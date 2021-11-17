@@ -1,7 +1,11 @@
 package dev.xdark.betterloading.internal;
 
 import dev.xdark.betterloading.RuntimeHelper;
+import io.netty.util.concurrent.FastThreadLocalThread;
+import io.netty.util.internal.RecyclableArrayList;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.Bootstrap;
+import net.minecraft.datafixer.Schemas;
 import net.minecraft.resource.DefaultResourcePack;
 import net.minecraft.resource.ResourcePack;
 
@@ -14,9 +18,13 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.zip.ZipFile;
 
-public final class FabricInjector {
+public final class GameHelper {
 
   public static final boolean RESOURCE_LOADER_PRESENT =
       FabricLoader.getInstance().isModLoaded("fabric-resource-loader-v0");
@@ -25,8 +33,38 @@ public final class FabricInjector {
   private static final MethodHandle ZIPFS_IS_DIR;
   private static final MethodHandle ZIPFS_EXISTS;
   private static final MethodHandle ZIP_PATH_RESOLVE;
+  private static Thread bootstrapThread;
+  private static Throwable bootstrapThrowable;
 
-  private FabricInjector() {}
+  private GameHelper() {}
+
+  public static void bootstrap() {
+    (bootstrapThread =
+            new FastThreadLocalThread(
+                () -> {
+                  try {
+                    long now = System.currentTimeMillis();
+                    Bootstrap.initialize();
+                    System.out.println(
+                        "Finished bootstrapping in " + (System.currentTimeMillis() - now));
+                  } catch (Throwable t) {
+                    bootstrapThrowable = t;
+                  }
+                },
+                "Bootstrap Thread"))
+        .start();
+    Schemas.getFixer();
+  }
+
+  public static void finishBootstrap() throws InterruptedException {
+    System.out.println("Waiting for bootstrap to finish...");
+    bootstrapThread.join();
+    Throwable bootstrapThrowable = GameHelper.bootstrapThrowable;
+    if (bootstrapThrowable != null) {
+      RuntimeHelper._throw(bootstrapThrowable);
+    }
+    Bootstrap.logMissing();
+  }
 
   public static Field getDefaultDelegatingPackField() {
     if (!RESOURCE_LOADER_PRESENT) return null;
@@ -78,7 +116,7 @@ public final class FabricInjector {
     try {
       return (boolean) ZIPFS_IS_DIR.invoke(fs, path);
     } catch (Throwable t) {
-      sneaky(t);
+      RuntimeHelper._throw(t);
       return false;
     }
   }
@@ -87,7 +125,7 @@ public final class FabricInjector {
     try {
       return (boolean) ZIPFS_EXISTS.invoke(fs, path);
     } catch (Throwable t) {
-      sneaky(t);
+      RuntimeHelper._throw(t);
       return false;
     }
   }
@@ -96,13 +134,26 @@ public final class FabricInjector {
     try {
       return (byte[]) ZIP_PATH_RESOLVE.invoke(path);
     } catch (Throwable t) {
-      sneaky(t);
+      RuntimeHelper._throw(t);
       return null;
     }
   }
 
-  private static <T extends Throwable> void sneaky(Throwable r) throws T {
-    throw (T) r;
+  public static <E> List<E> ensureArrayList(Iterable<? extends E> elements) {
+    if (elements instanceof ArrayList) return (ArrayList<E>) elements;
+    int size;
+    if (elements instanceof Collection) {
+      size = ((Collection<? extends E>) elements).size();
+    } else {
+      size = 16;
+    }
+    RecyclableArrayList list = RecyclableArrayList.newInstance(size);
+    for (E element : elements) list.add(element);
+    return (List<E>) list;
+  }
+
+  public static void recycle(Object o) {
+    if (o instanceof RecyclableArrayList) ((RecyclableArrayList) o).recycle();
   }
 
   static {

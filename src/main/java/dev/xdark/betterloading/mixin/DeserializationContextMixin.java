@@ -27,6 +27,7 @@ public abstract class DeserializationContextMixin {
 
   @Inject(method = "<init>", at = @At("RETURN"))
   private void onInit(CallbackInfo ci) {
+    /*
     MultipartUnbakedModelDeserializer multipartUnbakedModelDeserializer =
         new MultipartUnbakedModelDeserializer(
             (ModelVariantMap.DeserializationContext) (Object) this);
@@ -42,5 +43,7 @@ public abstract class DeserializationContextMixin {
                 MultipartModelComponent.class, MultipartModelComponentDeserializer.INSTANCE)
             .registerTypeAdapter(MultipartUnbakedModel.class, multipartUnbakedModelDeserializer)
             .create();
+
+     */
   }
 }

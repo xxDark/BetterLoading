@@ -11,4 +11,10 @@ accessible method net/minecraft/client/particle/ParticleTextureData <init> (Ljav
 accessible field net/minecraft/resource/NamespaceResourceManager type Lnet/minecraft/resource/ResourceType;
 accessible method net/minecraft/resource/NamespaceResourceManager validate (Lnet/minecraft/util/Identifier;)V
 accessible method net/minecraft/resource/NamespaceResourceManager getMetadataPath (Lnet/minecraft/util/Identifier;)Lnet/minecraft/util/Identifier;
+accessible field net/minecraft/client/render/model/json/JsonUnbakedModel parent Lnet/minecraft/client/render/model/json/JsonUnbakedModel;
+accessible field net/minecraft/client/render/model/json/JsonUnbakedModel elements Ljava/util/List;
+accessible field net/minecraft/client/render/model/json/JsonUnbakedModel ambientOcclusion Z
+accessible field net/minecraft/client/render/model/json/JsonUnbakedModel guiLight Lnet/minecraft/client/render/model/json/JsonUnbakedModel$GuiLight;
+accessible field net/minecraft/client/render/model/json/JsonUnbakedModel parentId Lnet/minecraft/util/Identifier;
+accessible field net/minecraft/client/render/model/json/JsonUnbakedModel transformations Lnet/minecraft/client/render/model/json/ModelTransformation;
 

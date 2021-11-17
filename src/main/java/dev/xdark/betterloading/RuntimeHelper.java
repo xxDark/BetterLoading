@@ -58,6 +58,10 @@ public final class RuntimeHelper {
     }
   }
 
+  public static <T extends Throwable> void _throw(Throwable t) throws T {
+    throw (T) t;
+  }
+
   static {
     try {
       Field field = Unsafe.class.getDeclaredField("theUnsafe");

@@ -5,8 +5,10 @@
   "compatibilityLevel": "JAVA_16",
   "client": [
     "AbstractFileResourcePackMixin",
+    "AndMultipartModelSelectorMixin",
     "BlockModelsMixin",
     "BlockStateMixin",
+    "DefaultClientResourcePackMixin",
     "DefaultResourcePackMixin",
     "DeserializationContextMixin",
     "DirectoryResourcePackMixin",
@@ -17,6 +19,7 @@
     "ModelLoaderMixin",
     "MultipartUnbakedModelMixin",
     "NamespaceResourceManagerMixin",
+    "OrMultipartModelSelectorMixin",
     "ParticleManagerMixin",
     "RawTextureDataLoaderMixin",
     "ReloadableResourceManagerImplMixin",
@@ -32,11 +35,12 @@
     "TextureDataMixin",
     "UnbakedModelMixin",
     "UnicodeTextureFontMixin",
+    "UtilMixin",
     "VideoWarningManagerMixin",
     "WeightedUnbakedModelMixin",
     "ZipResourcePackMixin",
-    "DefaultClientResourcePackMixin",
-    "UtilMixin"
+    "BooleanPropertyMixin",
+    "StateManagerBuilderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

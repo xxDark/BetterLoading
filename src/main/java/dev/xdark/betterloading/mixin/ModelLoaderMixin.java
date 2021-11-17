@@ -39,9 +39,7 @@ public abstract class ModelLoaderMixin implements ModelLoaderExt {
 
   @Override
   public void putModels(Collection<Identifier> models) {
-    if (!models.isEmpty()) {
-      this.modelsToLoad.addAll(models);
-    }
+    this.modelsToLoad.addAll(models);
   }
 
   /**
